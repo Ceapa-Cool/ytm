@@ -7,14 +7,22 @@
 </head>
 <body>
     <h2>YouTube Audio Downloader & Booster</h2>
-    <form action="/" method="post">
+    <form action="/" method="post" id="downloadForm">
         <label for="url">YouTube Video URL:</label><br>
         <input type="text" id="url" name="url" required><br><br>
         
         <label for="boost_factor">Boost Factor (e.g., 2 for double volume):</label><br>
         <input type="number" id="boost_factor" name="boost_factor" step="0.1" required><br><br>
         
-        <input type="submit" value="Download Boosted Audio">
+        <input type="submit" value="Download Boosted Audio" id="downloadButton">
     </form>
+
+    <script>
+        document.getElementById('downloadForm').addEventListener('submit', function() {
+            var downloadButton = document.getElementById('downloadButton');
+            downloadButton.value = "Loading...";
+            downloadButton.disabled = true;
+        });
+    </script>
 </body>
 </html>

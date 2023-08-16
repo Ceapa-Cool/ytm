@@ -24,7 +24,7 @@ def download_audio_and_thumbnail(url):
 def boost_audio_and_save_as_mp3(audio_filename, boost_factor, safe_title):
     clip = mp.AudioFileClip(audio_filename)
     boosted_audio = clip.volumex(boost_factor)
-    mp3_filename = f"{safe_title}_boosted.mp3"
+    mp3_filename = f"{safe_title}.mp3"
     boosted_audio.write_audiofile(mp3_filename)
     return mp3_filename
 
