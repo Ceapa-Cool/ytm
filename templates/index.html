@@ -1,27 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouTube Audio Downloader & Booster</title>
+    <title>YouTube Audio Downloader</title>
 </head>
 <body>
-    <h2>YouTube Audio Downloader & Booster</h2>
-    <form action="/" method="post" id="downloadForm">
-        <label for="url">YouTube Video URL:</label><br>
-        <input type="text" id="url" name="url" required><br><br>
+    <h1>YouTube Audio Downloader</h1>
+    <form action="/convert" method="post" id="conversionForm">
+        <label for="url">Video URL:</label>
+        <input type="url" name="url" id="url" required><br><br>
         
-        <label for="boost_factor">Boost Factor (e.g., 2 for double volume):</label><br>
-        <input type="number" id="boost_factor" name="boost_factor" step="0.1" required><br><br>
+        <label for="boost">Boost Factor:</label>
+        <input type="float" name="boost_factor" id="boost" required><br><br>
         
-        <input type="submit" value="Download Boosted Audio" id="downloadButton">
+        <input type="submit" value="Convert">
     </form>
-
+    
+    <div id="status">
+        <!-- Status messages will appear here -->
+    </div>
+    
     <script>
-        document.getElementById('downloadForm').addEventListener('submit', function() {
-            var downloadButton = document.getElementById('downloadButton');
-            downloadButton.value = "Loading...";
-            downloadButton.disabled = true;
+        const form = document.getElementById('conversionForm');
+        const statusDiv = document.getElementById('status');
+        
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(form);
+            const response = await fetch('/convert', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const data = await response.json();
+            
+            // Polling the status every 5 seconds
+            const interval = setInterval(async () => {
+                const statusResponse = await fetch(`/status/${data.task_id}`);
+                const statusData = await statusResponse.json();
+                
+                if (statusData.status === 'completed') {
+                    clearInterval(interval);
+                    statusDiv.innerHTML = '<a href="/downloads/' + statusData.result + '">Download File</a>';
+                } else {
+                    statusDiv.textContent = statusData.status + " " + statusData.prog + "%";
+                }
+            }, 1000);
         });
     </script>
 </body>
