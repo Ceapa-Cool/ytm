@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Audio Downloader & Booster</title>
+</head>
+<body>
+    <h2>YouTube Audio Downloader & Booster</h2>
+    <form action="/" method="post">
+        <label for="url">YouTube Video URL:</label><br>
+        <input type="text" id="url" name="url" required><br><br>
+        
+        <label for="boost_factor">Boost Factor (e.g., 2 for double volume):</label><br>
+        <input type="number" id="boost_factor" name="boost_factor" step="0.1" required><br><br>
+        
+        <input type="submit" value="Download Boosted Audio">
+    </form>
+</body>
+</html>
